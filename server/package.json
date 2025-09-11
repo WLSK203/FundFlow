@@ -1,0 +1,37 @@
+{
+  "name": "fundflow-server",
+  "version": "1.0.0",
+  "description": "FundFlow backend server with AI trust scoring and fund tracking API",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "dotenv": "^16.3.1",
+    "mongoose": "^7.5.0",
+    "@tensorflow/tfjs-node": "^4.10.0",
+    "multer": "^1.4.5-lts.1",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "express-rate-limit": "^6.8.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3"
+  },
+  "keywords": [
+    "express",
+    "nodejs",
+    "api",
+    "tensorflow",
+    "ai",
+    "trust-score"
+  ]
+}
