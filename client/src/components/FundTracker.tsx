@@ -88,6 +88,35 @@ const FundTracker: React.FC = () => {
     return `₹${(amount / 1000).toFixed(0)}K`;
   };
 
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-4 border border-neutral-200 rounded-lg shadow-lg">
+          <p className="font-semibold text-neutral-900 mb-2">{`Date: ${label}`}</p>
+          {payload.map((entry: any, index: number) => {
+            const color = entry.color;
+            const name = entry.name;
+            const value = entry.value;
+            const description = name === 'Inflow' 
+              ? 'Money received by organizations' 
+              : name === 'Outflow' 
+                ? 'Money spent on projects and expenses'
+                : 'Net difference (Inflow - Outflow)';
+            return (
+              <div key={index} className="mb-1">
+                <p style={{ color }} className="font-medium">
+                  {`${name}: ${formatAmount(value)}`}
+                </p>
+                <p className="text-xs text-neutral-600">{description}</p>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+    return null;
+  };
+
   const formatTimestamp = (timestamp: string) => {
     const date = new Date(timestamp);
     return date.toLocaleTimeString('en-US', { 
@@ -129,22 +158,58 @@ const FundTracker: React.FC = () => {
 
       {/* Daily Fund Flow Chart */}
       <div className="bg-white rounded-lg border border-neutral-200 p-6">
-        <h3 className="text-lg font-semibold text-neutral-900 mb-4">7-Day Fund Flow Trends</h3>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={dailyFlow}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis tickFormatter={(value) => `₹${(value / 10000000).toFixed(0)}Cr`} />
-            <Tooltip 
-              formatter={(value: number) => [formatAmount(value), '']}
-              labelStyle={{ color: '#374151' }}
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-neutral-900 mb-2">7-Day Fund Flow Trends</h3>
+          <p className="text-sm text-neutral-600 mb-4">
+            This graph shows how money flows in and out of the system over the past week. 
+            <span className="text-green-600 font-medium">Green line</span> shows money coming in, 
+            <span className="text-blue-600 font-medium">blue line</span> shows money going out, and 
+            <span className="text-gray-600 font-medium">dashed line</span> shows the net difference.
+          </p>
+          
+          {/* Legend with explanations */}
+          <div className="flex flex-wrap gap-6 text-sm mb-4">
+            <div className="flex items-center">
+              <div className="w-4 h-0.5 bg-green-500 mr-2"></div>
+              <span className="font-medium text-green-600">Inflow</span>
+              <span className="text-neutral-500 ml-1">(Donations & Grants)</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-4 h-0.5 bg-blue-500 mr-2"></div>
+              <span className="font-medium text-blue-600">Outflow</span>
+              <span className="text-neutral-500 ml-1">(Project Expenses)</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-4 h-0.5 bg-gray-500 border-dashed mr-2"></div>
+              <span className="font-medium text-gray-600">Net Flow</span>
+              <span className="text-neutral-500 ml-1">(Surplus/Deficit)</span>
+            </div>
+          </div>
+        </div>
+        
+        <ResponsiveContainer width="100%" height={350}>
+          <LineChart data={dailyFlow} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <XAxis 
+              dataKey="date" 
+              tick={{ fontSize: 12 }}
+              axisLine={{ stroke: '#d1d5db' }}
             />
+            <YAxis 
+              tickFormatter={(value) => `₹${(value / 10000000).toFixed(0)}Cr`}
+              tick={{ fontSize: 12 }}
+              axisLine={{ stroke: '#d1d5db' }}
+              label={{ value: 'Amount (Crores)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }}
+            />
+            <Tooltip content={<CustomTooltip />} />
             <Line 
               type="monotone" 
               dataKey="inflow" 
               stroke="#22c55e" 
               strokeWidth={3}
               name="Inflow"
+              dot={{ r: 5, fill: '#22c55e' }}
+              activeDot={{ r: 7, stroke: '#22c55e', strokeWidth: 2, fill: '#fff' }}
             />
             <Line 
               type="monotone" 
@@ -152,6 +217,8 @@ const FundTracker: React.FC = () => {
               stroke="#3b82f6" 
               strokeWidth={3}
               name="Outflow"
+              dot={{ r: 5, fill: '#3b82f6' }}
+              activeDot={{ r: 7, stroke: '#3b82f6', strokeWidth: 2, fill: '#fff' }}
             />
             <Line 
               type="monotone" 
@@ -160,9 +227,26 @@ const FundTracker: React.FC = () => {
               strokeWidth={2}
               strokeDasharray="5 5"
               name="Net Flow"
+              dot={{ r: 4, fill: '#64748b' }}
+              activeDot={{ r: 6, stroke: '#64748b', strokeWidth: 2, fill: '#fff' }}
             />
           </LineChart>
         </ResponsiveContainer>
+        
+        {/* Key Insights */}
+        <div className="mt-6 bg-blue-50 rounded-lg p-4">
+          <h4 className="font-semibold text-blue-900 mb-2">📊 Key Insights</h4>
+          <div className="grid md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <span className="text-blue-700 font-medium">Average Daily Inflow:</span>
+              <span className="ml-2">₹{(dailyFlow.reduce((sum, item) => sum + item.inflow, 0) / (dailyFlow.length * 10000000)).toFixed(1)}Cr</span>
+            </div>
+            <div>
+              <span className="text-blue-700 font-medium">Average Daily Outflow:</span>
+              <span className="ml-2">₹{(dailyFlow.reduce((sum, item) => sum + item.outflow, 0) / (dailyFlow.length * 10000000)).toFixed(1)}Cr</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Real-time Transaction Feed */}

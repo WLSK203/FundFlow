@@ -33,12 +33,18 @@ interface UserGamification {
 
 const CommunityAudit: React.FC<{ projectId: string }> = ({ projectId }) => {
   const [showSubmissionForm, setShowSubmissionForm] = useState(false);
-  const [submission, setSubmission] = useState({
+  const [submission, setSubmission] = useState<{
+    title: string;
+    description: string;
+    type: 'photo' | 'report' | 'complaint';
+    media: File | null;
+    location: any;
+  }>({
     title: '',
     description: '',
-    type: 'photo' as const,
-    media: null as File | null,
-    location: null as any
+    type: 'photo',
+    media: null,
+    location: null
   });
   const [userStats, setUserStats] = useState<UserGamification>({
     points: 2,
@@ -217,7 +223,7 @@ const CommunityAudit: React.FC<{ projectId: string }> = ({ projectId }) => {
               </label>
               <select
                 value={submission.type}
-                onChange={(e) => setSubmission(prev => ({ ...prev, type: e.target.value as any }))}
+                onChange={(e) => setSubmission(prev => ({ ...prev, type: e.target.value as 'photo' | 'report' | 'complaint' }))}
                 className="w-full p-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 <option value="photo">Photo Evidence</option>

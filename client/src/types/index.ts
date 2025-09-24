@@ -2,7 +2,8 @@ export interface Organization {
   id: string;
   name: string;
   registrationNumber: string;
-  type: 'NGO' | 'Government' | 'Private';
+  type: 'NGO' | 'Government' | 'Private' | 'Digital_Financial_Service' | 'Public_Service';
+  category: string; // e.g., 'Education', 'Healthcare', 'Environment', 'Fintech', 'Banking', 'Insurance'
   trustScore: number;
   trustTrend: number[];
   description: string;
@@ -10,10 +11,24 @@ export interface Organization {
   email: string;
   phone: string;
   address: string;
+  logo?: string;
+  banner?: string;
   projects: Project[];
   totalFundsReceived: number;
   totalFundsDisbursed: number;
   verificationStatus: 'verified' | 'pending' | 'unverified';
+  donationEnabled: boolean;
+  donationMethods: DonationMethod[];
+  socialLinks?: {
+    facebook?: string;
+    twitter?: string;
+    linkedin?: string;
+    instagram?: string;
+  };
+  features?: OrganizationFeature[]; // For Digital Financial Services
+  services?: PublicService[]; // For Public Services
+  impact: ImpactMetrics;
+  financialTransparency: FinancialTransparency;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -211,4 +226,171 @@ export interface DashboardStats {
   averageTrustScore: number;
   activeAudits: number;
   resolvedIssues: number;
+}
+
+// New interfaces for enhanced features
+export interface DonationMethod {
+  id: string;
+  type: 'upi' | 'card' | 'netbanking' | 'wallet' | 'crypto';
+  name: string;
+  details: any; // Payment gateway specific details
+  enabled: boolean;
+  processingFee?: number;
+}
+
+export interface Donation {
+  id: string;
+  donorId?: string; // Optional for anonymous donations
+  organizationId: string;
+  projectId?: string; // Optional - can donate to specific project
+  amount: number;
+  currency: string;
+  method: DonationMethod;
+  status: 'pending' | 'completed' | 'failed' | 'refunded';
+  message?: string; // Donor message
+  isAnonymous: boolean;
+  recurringType?: 'monthly' | 'quarterly' | 'yearly';
+  nextDonationDate?: Date;
+  receiptId: string;
+  taxBenefit: boolean;
+  transactionHash?: string; // For blockchain transactions
+  fundId: string; // New: trackable Fund ID
+  createdAt: Date;
+  completedAt?: Date;
+}
+
+export interface ImpactMetrics {
+  beneficiariesReached: number;
+  projectsCompleted: number;
+  fundUtilizationRate: number; // Percentage
+  impactScore: number; // 0-100
+  outcomeMeasures: OutcomeMeasure[];
+  geographicReach: string[]; // List of locations
+  yearlyGrowth: number; // Percentage
+}
+
+export interface OutcomeMeasure {
+  metric: string;
+  value: number;
+  unit: string;
+  category: string;
+  reportingDate: Date;
+}
+
+export interface FinancialTransparency {
+  auditReports: AuditReport[];
+  monthlyReports: MonthlyFinancialReport[];
+  certifications: string[];
+  transparencyScore: number; // 0-100
+  lastAuditDate: Date;
+  nextAuditDate: Date;
+}
+
+export interface AuditReport {
+  id: string;
+  auditorName: string;
+  reportUrl: string;
+  reportDate: Date;
+  findings: string[];
+  recommendations: string[];
+  compliance: boolean;
+}
+
+export interface MonthlyFinancialReport {
+  month: string;
+  year: number;
+  income: number;
+  expenditure: number;
+  balance: number;
+  reportUrl?: string;
+}
+
+export interface OrganizationFeature {
+  id: string;
+  name: string;
+  description: string;
+  type: 'payment' | 'lending' | 'insurance' | 'investment' | 'remittance' | 'other';
+  isActive: boolean;
+  pricing?: PricingModel[];
+  technicalSpecs?: TechnicalSpecification[];
+}
+
+export interface PricingModel {
+  tier: string;
+  price: number;
+  currency: string;
+  features: string[];
+  limitations?: string[];
+}
+
+export interface TechnicalSpecification {
+  specification: string;
+  value: string;
+  category: string;
+}
+
+export interface PublicService {
+  id: string;
+  name: string;
+  description: string;
+  category: 'healthcare' | 'education' | 'transport' | 'utilities' | 'legal' | 'administrative' | 'other';
+  isOnline: boolean;
+  serviceUrl?: string;
+  requiredDocuments: string[];
+  processingTime: string;
+  fees: ServiceFee[];
+  eligibility: string[];
+  contactInfo: ContactInfo;
+}
+
+export interface ServiceFee {
+  description: string;
+  amount: number;
+  currency: string;
+  isOptional: boolean;
+}
+
+export interface ContactInfo {
+  email?: string;
+  phone?: string;
+  address?: string;
+  website?: string;
+  workingHours?: string;
+}
+
+export interface FundTrackingData {
+  organizationId: string;
+  totalReceived: number;
+  totalSpent: number;
+  totalPending: number;
+  categories: FundCategory[];
+  monthlyData: MonthlyFundData[];
+  efficiency: number;
+  alerts: FundAlert[];
+}
+
+export interface FundCategory {
+  name: string;
+  allocated: number;
+  spent: number;
+  pending: number;
+  efficiency: number;
+  color: string;
+}
+
+export interface MonthlyFundData {
+  month: string;
+  received: number;
+  spent: number;
+  balance: number;
+}
+
+export interface FundAlert {
+  id: string;
+  type: 'budget_overrun' | 'low_efficiency' | 'delayed_disbursement' | 'unusual_spending';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  message: string;
+  data: any;
+  createdAt: Date;
+  resolved: boolean;
 }

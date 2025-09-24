@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MagnifyingGlassIcon, ChartBarIcon, ShieldCheckIcon, EyeIcon } from '@heroicons/react/24/outline';
 import { Organization, DashboardStats } from '../types';
+import { mockOrganizations } from '../services/mockData';
 import TrustScoreDisplay from '../components/TrustScoreDisplay';
-import FundTracker from '../components/FundTracker';
 import SearchBar from '../components/SearchBar';
 
 const Homepage: React.FC = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats>({
     totalOrganizations: 2840,
     totalProjects: 12450,
@@ -18,45 +20,8 @@ const Homepage: React.FC = () => {
   const [featuredOrganizations, setFeaturedOrganizations] = useState<Organization[]>([]);
 
   useEffect(() => {
-    // This would normally fetch from API
-    setFeaturedOrganizations([
-      {
-        id: '1',
-        name: 'Akshaya Patra Foundation',
-        registrationNumber: 'REG-2001-APF-001',
-        type: 'NGO',
-        trustScore: 94,
-        trustTrend: [89, 91, 92, 94, 94],
-        description: 'Largest NGO in India providing mid-day meals to school children',
-        email: 'info@akshayapatra.org',
-        phone: '+91-80-3021-4444',
-        address: 'Bangalore, Karnataka',
-        projects: [],
-        totalFundsReceived: 450000000,
-        totalFundsDisbursed: 420000000,
-        verificationStatus: 'verified',
-        createdAt: new Date('2001-06-15'),
-        updatedAt: new Date('2024-12-11')
-      },
-      {
-        id: '2',
-        name: 'Ministry of Rural Development',
-        registrationNumber: 'GOI-MRD-2014',
-        type: 'Government',
-        trustScore: 82,
-        trustTrend: [78, 79, 80, 81, 82],
-        description: 'Government ministry overseeing rural development schemes',
-        email: 'info@rural.nic.in',
-        phone: '+91-11-2338-2045',
-        address: 'New Delhi',
-        projects: [],
-        totalFundsReceived: 1200000000,
-        totalFundsDisbursed: 980000000,
-        verificationStatus: 'verified',
-        createdAt: new Date('2014-05-26'),
-        updatedAt: new Date('2024-12-11')
-      }
-    ]);
+    // Use the mock data from the service
+    setFeaturedOrganizations(mockOrganizations.slice(0, 2));
   }, []);
 
   return (
@@ -78,7 +43,7 @@ const Homepage: React.FC = () => {
             <div className="max-w-2xl mx-auto mb-12">
               <SearchBar 
                 placeholder="Search for NGOs, projects, or welfare schemes..." 
-                onSearch={(query) => console.log('Search:', query)}
+                onSearch={(query) => navigate(`/search?q=${encodeURIComponent(query)}`)}
               />
             </div>
 
@@ -133,7 +98,11 @@ const Homepage: React.FC = () => {
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {featuredOrganizations.map(org => (
-              <div key={org.id} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+              <div 
+                key={org.id} 
+                className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer"
+                onClick={() => navigate(`/organization/${org.id}`)}
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="text-xl font-bold text-neutral-900">{org.name}</h3>
@@ -151,18 +120,6 @@ const Homepage: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Live Fund Tracker Visualization */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-neutral-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-neutral-900 mb-8 text-center">
-            Live Fund Movement Tracker
-          </h2>
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <FundTracker />
           </div>
         </div>
       </section>
@@ -213,15 +170,26 @@ const Homepage: React.FC = () => {
             Partner with us, invest in our vision, or help us scale transparency across India and beyond.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors">
+            <button 
+              onClick={() => navigate('/partnership')}
+              className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
+            >
               Partner With Us
             </button>
-            <button className="bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-800 transition-colors border border-primary-400">
+            <button 
+              onClick={() => navigate('/about')}
+              className="bg-primary-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-800 transition-colors border border-primary-400"
+            >
               Learn More
             </button>
           </div>
         </div>
       </section>
+
+      {/* Footer Credit */}
+      <footer className="py-6 px-4 sm:px-6 lg:px-8 bg-neutral-100 text-center text-sm text-neutral-700">
+        This was made by the team "VECTOR" — Members: ALOK SHARMA (24BCE10325), ASHISH KUMAR YADAV (24BCE10880), NAMAN CHOUDHARY (24BCE10586), SNEHA TIWARI (24BCE11287)
+      </footer>
     </div>
   );
 };
