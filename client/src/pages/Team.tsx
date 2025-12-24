@@ -6,7 +6,7 @@ const Team: React.FC = () => {
       <div className="bg-white rounded-xl shadow-lg p-8 text-center max-w-3xl">
         <h1 className="text-2xl font-bold text-neutral-900 mb-4">Team</h1>
         <p className="text-neutral-700">
-          This was made by the team "VECTOR" — Member: ALOK SHARMA (24BCE10325)
+          This was made by: <a href="https://www.linkedin.com/in/alok-sharma-b17550321" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">ALOK SHARMA</a>
         </p>
       </div>
     </div>

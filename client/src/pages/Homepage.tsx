@@ -188,7 +188,7 @@ const Homepage: React.FC = () => {
 
       {/* Footer Credit */}
       <footer className="py-6 px-4 sm:px-6 lg:px-8 bg-neutral-100 text-center text-sm text-neutral-700">
-        This was made by the team "VECTOR" — Member: ALOK SHARMA (24BCE10325)
+        This was made by the team "VECTOR" — Member: <a href="https://www.linkedin.com/in/alok-sharma-b17550321" target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">ALOK SHARMA</a> (24BCE10325)
       </footer>
     </div>
   );
