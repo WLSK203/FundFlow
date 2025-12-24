@@ -6,7 +6,7 @@ import Homepage from './pages/Homepage';
 import SearchResults from './pages/SearchResults';
 import Organizations from './pages/Organizations';
 import OrganizationDetail from './pages/OrganizationDetail';
-import Team from './pages/Team';
+
 import Partnership from './pages/Partnership';
 import About from './pages/About';
 import FundTrackerPage from './pages/FundTrackerPage';
@@ -24,7 +24,7 @@ function App() {
           <Route path="/organization/:id" element={<OrganizationDetail />} />
           <Route path="/fund/:fundId" element={<FundTrackerPage />} />
           <Route path="/track" element={<FundIdTracker />} />
-          <Route path="/team" element={<Team />} />
+
           <Route path="/partnership" element={<Partnership />} />
           <Route path="/about" element={<About />} />
         </Routes>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HomeIcon, MagnifyingGlassIcon, ChartBarIcon, UserGroupIcon, InformationCircleIcon, HandRaisedIcon, UsersIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, MagnifyingGlassIcon, ChartBarIcon, UserGroupIcon, InformationCircleIcon, HandRaisedIcon } from '@heroicons/react/24/outline';
 
 const Navigation: React.FC = () => {
   const location = useLocation();
@@ -25,23 +25,21 @@ const Navigation: React.FC = () => {
           <div className="flex space-x-8">
             <Link
               to="/"
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                isActive('/') 
-                  ? 'bg-primary-100 text-primary-700' 
-                  : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
-              }`}
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive('/')
+                ? 'bg-primary-100 text-primary-700'
+                : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                }`}
             >
               <HomeIcon className="h-4 w-4 mr-2" />
               Home
             </Link>
-            
+
             <Link
               to="/search"
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                isActive('/search') 
-                  ? 'bg-primary-100 text-primary-700' 
-                  : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
-              }`}
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive('/search')
+                ? 'bg-primary-100 text-primary-700'
+                : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                }`}
             >
               <MagnifyingGlassIcon className="h-4 w-4 mr-2" />
               Search
@@ -49,35 +47,32 @@ const Navigation: React.FC = () => {
 
             <Link
               to="/organizations"
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                isActive('/organizations') 
-                  ? 'bg-primary-100 text-primary-700' 
-                  : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
-              }`}
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive('/organizations')
+                ? 'bg-primary-100 text-primary-700'
+                : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                }`}
             >
               <UserGroupIcon className="h-4 w-4 mr-2" />
               Organizations
             </Link>
 
             <Link
-            to="/track"
-            className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-              isActive('/track') 
-                ? 'bg-primary-100 text-primary-700' 
+              to="/track"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive('/track')
+                ? 'bg-primary-100 text-primary-700'
                 : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
-            }`}
-          >
-            <ChartBarIcon className="h-4 w-4 mr-2" />
-            Track Fund
-          </Link>
+                }`}
+            >
+              <ChartBarIcon className="h-4 w-4 mr-2" />
+              Track Fund
+            </Link>
 
-          <Link
+            <Link
               to="/about"
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                isActive('/about') 
-                  ? 'bg-primary-100 text-primary-700' 
-                  : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
-              }`}
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive('/about')
+                ? 'bg-primary-100 text-primary-700'
+                : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                }`}
             >
               <InformationCircleIcon className="h-4 w-4 mr-2" />
               About
@@ -85,27 +80,16 @@ const Navigation: React.FC = () => {
 
             <Link
               to="/partnership"
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                isActive('/partnership') 
-                  ? 'bg-primary-100 text-primary-700' 
-                  : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
-              }`}
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isActive('/partnership')
+                ? 'bg-primary-100 text-primary-700'
+                : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                }`}
             >
               <HandRaisedIcon className="h-4 w-4 mr-2" />
               Partner
             </Link>
 
-            <Link
-              to="/team"
-              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                isActive('/team') 
-                  ? 'bg-primary-100 text-primary-700' 
-                  : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
-              }`}
-            >
-              <UsersIcon className="h-4 w-4 mr-2" />
-              Team
-            </Link>
+
           </div>
 
           {/* User Actions */}
