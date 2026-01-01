@@ -1,13 +1,14 @@
 # FundFlow - Decentralized Accountability Hub 
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-green.svg)
-![React](https://img.shields.io/badge/react-v19.0.0-blue.svg)
-![Status](https://img.shields.io/badge/status-active-success.svg)
+![Status](https://img.shields.io/badge/Status-Showcase-blueviolet)
+![Private](https://img.shields.io/badge/Access-Proprietary-red)
+![Version](https://img.shields.io/badge/Version-1.0.0-blue)
 
 ## 🌟 Rebuilding Trust, One Rupee at a Time
 
-**FundFlow** is a revolutionary transparency platform that leverages blockchain technology, AI-powered trust scoring, and zero-knowledge proofs to bring radical accountability to NGOs, public welfare schemes, and digital financial services.
+**FundFlow** is a revolutionary transparency platform designed to rebuild public trust. It leverages blockchain technology, AI-powered trust scoring, and zero-knowledge proofs to bring radical accountability to NGOs, public welfare schemes, and digital financial services.
+
+> **Note**: This repository serves as a portfolio showcase. The source code is proprietary and not available for public cloning.
 
 ### 🎯 Core Mission
 - **Restore Public Trust** through verifiable transparency.
@@ -21,17 +22,17 @@
 
 ### 🤖 AI-Powered Trust Scores
 - **Real-time Analysis**: Dynamic scoring (1-100) based on financial patterns.
-- **Machine Learning**: Detects anomalies and suspicious activities automatically.
+- **Machine Learning**: Detects anomalies and suspicious activities automatically using TensorFlow.js.
 - **Multi-factor Assessment**: Evaluates transparency, efficiency, compliance, and community feedback.
 
 ### 🔗 End-to-End Fund Tracking
-- **Immutable Records**: Blockchain-backed transaction history.
-- **Visual Journey**: Track every dollar from donor to beneficiary.
+- **Immutable Records**: Blockchain-backed transaction history ensures data cannot be tampered with.
+- **Visual Journey**: Interactive charts track every dollar from donor to beneficiary.
 - **AI Monitoring**: Automated agents oversee major grant usage.
 
 ### 🔐 Privacy-Preserving Transparency
 - **Zero-Knowledge Proofs (ZKPs)**: Verify transactions without exposing sensitive beneficiary data.
-- **Secure**: Cryptographically verified audit trails.
+- **Secure Architecture**: Cryptographically verified audit trails.
 
 ### 👥 Community Auditing
 - **Gamified Verification**: Earn points and badges for submitting photo/video evidence.
@@ -39,106 +40,50 @@
 
 ---
 
-## 🏗️ Technology Stack
+## 🏗️ System Architecture
+
+This project is built as a robust monorepo with a microservices-ready structure.
 
 ### Frontend (Client)
-- **Framework**: [React.js](https://reactjs.org/) (v19) with TypeScript
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Visualization**: Recharts & D3.js
-- **Icons**: Heroicons
+- **Framework**: React.js (v19) with TypeScript
+- **Styling**: Tailwind CSS with custom design system
+- **Visualization**: D3.js & Recharts for complex data plotting
+- **State**: Context API & React Hooks
 
 ### Backend (Server)
-- **Runtime**: [Node.js](https://nodejs.org/) & Express.js
-- **Database**: MongoDB with Mongoose
-- **AI Engine**: TensorFlow.js
-- **Security**: Helmet, CORS, Rate Limiting
+- **Runtime**: Node.js & Express.js
+- **Database**: MongoDB (Mongoose ODM)
+- **AI Engine**: TensorFlow.js (Server-side inference)
+- **Security**: 
+  - Helmet for header security
+  - Rate Limiting
+  - JWT Authentication
+  - Encrypted Data Transmission
+
+### Infrastructure
+- **Blockchain Integration**: Compatible with EVM-based networks.
+- **Scalability**: Designed for horizontal scaling with separated client/server workspaces.
 
 ---
 
-## 🛠️ Installation & Setup
+## 📸 Functionality Highlights
 
-### Prerequisites
-- Node.js (v18 or higher)
-- npm (v9 or higher)
-- MongoDB Access (Local or Atlas)
-
-### Quick Start
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/WLSK203/FundFlow.git
-   cd fundflow-website
-   ```
-
-2. **Install Dependencies**
-   ```bash
-   # Install all dependencies (root, client, and server)
-   npm install
-   ```
-   *Note: This project uses npm workspaces. The root install handles everything.*
-
-3. **Environment Configuration**
-   ```bash
-   # Copy the example env file
-   cp server/.env.example server/.env
-   
-   # Update server/.env with your MongoDB URI and other secrets
-   ```
-
-4. **Start Development Servers**
-   ```bash
-   # Starts both Client (3000) and Server (5000) concurrently
-   npm run dev
-   ```
+- **Dynamic Trust Scoring**: Algorithms run in real-time to update NGO scores based on new transaction data.
+- **Geo-Tagged Audits**: Users upload proof of work which is verified against GPS data.
+- **Dual-Layer Search**: Elastic search capability across organizations, projects, and government schemes.
 
 ---
 
-## 🏃‍♂️ Available Scripts
+## 📞 Contact & Access
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Starts both client and server in development mode |
-| `npm run dev:client` | Starts only the React frontend |
-| `npm run dev:server` | Starts only the Node.js backend |
-| `npm run build` | Builds the client for production |
-| `npm start` | Starts the production server |
+This project demonstrates advanced full-stack development capabilities including AI integration, blockchain architectures, and modern UI/UX design.
 
----
+**Interested in the code or a demo?**
+Please contact the developer directly.
 
-## 🌐 API Overview
-
-The backend provides a comprehensive REST API. Here are the core endpoints:
-
-- **Organizations**: `GET /api/organizations` - List all NGOs
-- **Projects**: `GET /api/projects` - Track specific initiatives
-- **Trust Scores**: `GET /api/organizations/:id/trust-score` - AI analysis
-- **Transactions**: `GET /api/transactions` - Blockchain records
-- **Audits**: `GET /api/audits` - Community submissions
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 📞 Contact
-
-**FundFlow Team** - team@fundflow.org  
-Project Link: [https://github.com/WLSK203/FundFlow](https://github.com/WLSK203/FundFlow)
+**FundFlow Team**
+- Email: team@fundflow.org
+- Project Link: [https://github.com/WLSK203/FundFlow](https://github.com/WLSK203/FundFlow)
 
 ---
 
