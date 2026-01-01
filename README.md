@@ -74,17 +74,4 @@ This project is built as a robust monorepo with a microservices-ready structure.
 
 ---
 
-## 📞 Contact & Access
-
-This project demonstrates advanced full-stack development capabilities including AI integration, blockchain architectures, and modern UI/UX design.
-
-**Interested in the code or a demo?**
-Please contact the developer directly.
-
-**FundFlow Team**
-- Email: team@fundflow.org
-- Project Link: [https://github.com/WLSK203/FundFlow](https://github.com/WLSK203/FundFlow)
-
----
-
 > *Built with ❤️ for a more transparent world.*
