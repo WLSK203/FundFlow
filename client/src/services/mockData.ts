@@ -10,6 +10,7 @@ import {
   PublicService,
   FundTrackingData
 } from '../types';
+import { supabase } from '../supabaseClient';
 
 // Mock Organizations
 export const mockOrganizations: Organization[] = [
@@ -855,71 +856,69 @@ export const getDonationByFundId = async (fundId: string): Promise<DonationRecor
   return donationStore[fundId] || null;
 };
 
-export const searchData = (query: string, filters: SearchFilters = {}): Promise<SearchResult> => {
-  return new Promise((resolve) => {
-    // Simulate API delay
-    setTimeout(() => {
-      let filteredOrganizations = [...mockOrganizations];
-      let filteredSchemes = [...mockWelfareSchemes];
-
-      // Filter by search query
-      if (query.trim()) {
-        const searchTerm = query.toLowerCase();
-        
-        filteredOrganizations = filteredOrganizations.filter(org =>
-          org.name.toLowerCase().includes(searchTerm) ||
-          org.description.toLowerCase().includes(searchTerm) ||
-          org.address.toLowerCase().includes(searchTerm) ||
-          org.type.toLowerCase().includes(searchTerm)
-        );
-
-        filteredSchemes = filteredSchemes.filter(scheme =>
-          scheme.name.toLowerCase().includes(searchTerm) ||
-          scheme.description.toLowerCase().includes(searchTerm) ||
-          scheme.department.toLowerCase().includes(searchTerm)
-        );
-      }
-
-      // Apply filters
-      if (filters.type) {
-        if (filters.type === 'organization') {
-          filteredSchemes = [];
-        } else if (filters.type === 'scheme') {
-          filteredOrganizations = [];
-        }
-      }
-
-      if (filters.trustScoreMin !== undefined) {
-        filteredOrganizations = filteredOrganizations.filter(org => 
-          org.trustScore >= filters.trustScoreMin!
-        );
-      }
-
-      if (filters.location) {
-        const locationTerm = filters.location.toLowerCase();
-        filteredOrganizations = filteredOrganizations.filter(org =>
-          org.address.toLowerCase().includes(locationTerm)
-        );
-      }
-
-      const result: SearchResult = {
-        organizations: filteredOrganizations,
-        schemes: filteredSchemes,
-        total: filteredOrganizations.length + filteredSchemes.length
-      };
-
-      resolve(result);
-    }, 300); // Simulate network delay
-  });
+export const searchData = async (query: string, filters: SearchFilters = {}): Promise<SearchResult> => {
+  // Fetch from Supabase
+  let supabaseQuery = supabase.from('organizations').select('*');
+  
+  if (query.trim()) {
+    // Supabase simple ilike search on name
+    supabaseQuery = supabaseQuery.ilike('name', `%${query}%`);
+  }
+  
+  if (filters.trustScoreMin !== undefined) {
+    supabaseQuery = supabaseQuery.gte('trustScore', filters.trustScoreMin);
+  }
+  
+  if (filters.location) {
+    supabaseQuery = supabaseQuery.ilike('address', `%${filters.location}%`);
+  }
+  
+  if (filters.type && filters.type === 'organization') {
+    // Only fetching orgs
+  }
+  
+  const { data: orgData, error } = await supabaseQuery;
+  let filteredOrganizations = (orgData || []) as Organization[];
+  
+  // For welfare schemes, we keep using mock data for now
+  let filteredSchemes = [...mockWelfareSchemes];
+  
+  if (query.trim()) {
+    const searchTerm = query.toLowerCase();
+    filteredSchemes = filteredSchemes.filter(scheme =>
+      scheme.name.toLowerCase().includes(searchTerm) ||
+      scheme.description.toLowerCase().includes(searchTerm) ||
+      scheme.department.toLowerCase().includes(searchTerm)
+    );
+  }
+  
+  if (filters.type === 'organization') {
+    filteredSchemes = [];
+  } else if (filters.type === 'scheme') {
+    filteredOrganizations = [];
+  }
+  
+  return {
+    organizations: filteredOrganizations,
+    schemes: filteredSchemes,
+    total: filteredOrganizations.length + filteredSchemes.length
+  };
 };
 
-export const getOrganizationById = (id: string): Promise<Organization | null> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const organization = mockOrganizations.find(org => org.id === id);
-      resolve(organization || null);
-    }, 200);
-  });
+
+export const getOrganizationById = async (id: string): Promise<Organization | null> => {
+  const { data, error } = await supabase
+    .from('organizations')
+    .select('*')
+    .eq('id', id)
+    .single();
+  
+  if (error || !data) {
+    console.error("Error fetching organization:", error);
+    return null;
+  }
+  
+  return data as Organization;
 };
 
 // Fund tracking data for organizations

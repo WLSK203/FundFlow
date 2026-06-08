@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MagnifyingGlassIcon, ChartBarIcon, ShieldCheckIcon, EyeIcon } from '@heroicons/react/24/outline';
 import { Organization, DashboardStats } from '../types';
-import { mockOrganizations } from '../services/mockData';
+import { supabase } from '../supabaseClient';
 import TrustScoreDisplay from '../components/TrustScoreDisplay';
 import SearchBar from '../components/SearchBar';
 
@@ -20,8 +20,18 @@ const Homepage: React.FC = () => {
   const [featuredOrganizations, setFeaturedOrganizations] = useState<Organization[]>([]);
 
   useEffect(() => {
-    // Use the mock data from the service
-    setFeaturedOrganizations(mockOrganizations.slice(0, 2));
+    const fetchOrganizations = async () => {
+      const { data, error } = await supabase
+        .from('organizations')
+        .select('*')
+        .order('trustScore', { ascending: false })
+        .limit(2);
+      
+      if (data && !error) {
+        setFeaturedOrganizations(data as Organization[]);
+      }
+    };
+    fetchOrganizations();
   }, []);
 
   return (

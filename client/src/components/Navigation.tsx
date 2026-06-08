@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HomeIcon, MagnifyingGlassIcon, ChartBarIcon, UserGroupIcon, InformationCircleIcon, HandRaisedIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, MagnifyingGlassIcon, ChartBarIcon, UserGroupIcon, InformationCircleIcon, HandRaisedIcon, UserCircleIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
+import { useAuth } from '../contexts/AuthContext';
 
 const Navigation: React.FC = () => {
   const location = useLocation();
+  const { user, signOut } = useAuth();
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const isActive = (path: string) => {
     return location.pathname === path;
   };
 
   return (
-    <nav className="bg-white border-b border-neutral-200 shadow-sm">
+    <nav className="bg-white border-b border-neutral-200 shadow-sm relative z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -88,15 +91,49 @@ const Navigation: React.FC = () => {
               <HandRaisedIcon className="h-4 w-4 mr-2" />
               Partner
             </Link>
-
-
           </div>
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            <button className="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">
-              Sign In
-            </button>
+            {user ? (
+              <div className="relative">
+                <button 
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="flex items-center space-x-2 bg-neutral-50 hover:bg-neutral-100 px-3 py-2 rounded-lg transition-colors border border-neutral-200"
+                >
+                  <UserCircleIcon className="h-6 w-6 text-primary-600" />
+                  <span className="text-sm font-medium text-neutral-700 max-w-[150px] truncate">
+                    {user.user_metadata?.full_name || user.email}
+                  </span>
+                </button>
+                
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-neutral-200 py-1">
+                    <div className="px-4 py-3 border-b border-neutral-100">
+                      <p className="text-xs text-neutral-500">Signed in as</p>
+                      <p className="text-sm font-medium text-neutral-900 truncate">{user.email}</p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        signOut();
+                        setShowDropdown(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center"
+                    >
+                      <ArrowRightOnRectangleIcon className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/auth"
+                className="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors shadow-sm"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </div>

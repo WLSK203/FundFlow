@@ -288,7 +288,7 @@ const OrganizationDetail: React.FC = () => {
                     </div>
                     <div>
                       <div className="text-2xl font-bold text-neutral-900">
-                        {organization.createdAt.getFullYear()}
+                        {new Date(organization.createdAt).getFullYear()}
                       </div>
                       <div className="text-sm text-neutral-600">Established</div>
                     </div>
@@ -364,7 +364,7 @@ const OrganizationDetail: React.FC = () => {
                   <div>
                     <span className="text-sm text-neutral-600">Last Updated</span>
                     <p className="font-medium text-neutral-900">
-                      {organization.updatedAt.toLocaleDateString()}
+                      {new Date(organization.updatedAt).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -494,7 +494,7 @@ const OrganizationDetail: React.FC = () => {
                             </div>
                           </div>
                           <div className="text-sm text-neutral-600 mb-3">
-                            Report Date: {audit.reportDate.toLocaleDateString()}
+                            Report Date: {new Date(audit.reportDate).toLocaleDateString()}
                           </div>
                           
                           {audit.findings.length > 0 && (
